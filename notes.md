@@ -131,3 +131,84 @@ while(cin >> x){
 ```
 
 ## ch4-Organizing programs and data
+
+函数的定义：
+
+```cpp
+[inline] 返回类型 函数名(参数列表){
+    函数体
+}
+```
+
+inline是可选的，inline会在适当的条件下请求编译器把调用扩展成内联子过程，减少函数调用的开销；
+
+`&`表示为引用；
+
+const表示为不可修改的变量；
+
+c++定义struct与c语言类似：
+
+```cpp
+struct stu{
+    string name;
+    double midterm, final;
+    vector<double> homework;
+}
+```
+
+排序使用algorithms里的sort：
+
+```cpp
+#include <algorithms>
+
+sort(v.begin(), v.end(), cmp);
+# 其中cmp为v中元素的比较方式
+```
+
+异常处理：
+
+```cpp
+try{
+    //可能会触发异常的代码
+}catch(t){
+    //异常处理代码
+}
+```
+
+## ch5-Using sequential containers and ananlyzing string
+
+容器：vector、list、set...
+
+所有的顺序容器和string类型都支持一下操作：
+
+* `container<T>::iterator`：容器的迭代器
+* `container<T>::const_iterator`：表示这个容器的迭代器的类型名
+* `container<T>::size_type`：类型名称，表示这个容器可能存在的最大实例的长度
+* `c.begin()`：指向容器的第一个元素的迭代器
+* `c.end()`：指向容器的最后一个元素之后的那个位置的迭代器
+
+迭代器操作：
+
+* *it：访问其值
+* it->x：等同于(*it).x
+* it++：指向下一个元素
+* it != c.end()：判断
+
+string的操作：
+
+* substr(i, j)：从位置i到j的子字符串
+* getline(is, s)：从输入流is读一行且存入s
+* +：字符串相加
+
+cctype提供了处理字符数据的函数：
+
+* isspace：判断是否为空白字符
+* isalpha：判断是否为字母字符
+* isdigital：判断是否为数字
+* isalnum：判断是否为字母或数字
+* ispunct：判断是否为一个标点符号
+* isupper：判断是否为大写字母
+* islower：判断是否为小写字母
+* tolower：转换为小写
+* toupper：转换为大写
+

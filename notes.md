@@ -212,3 +212,213 @@ cctype提供了处理字符数据的函数：
 * tolower：转换为小写
 * toupper：转换为大写
 
+## ch6-Using library algorithms
+
+泛型算法是一个不属于任何特定类别容器的算法；
+
+static用于局部声明，声明了具有static存储类型的变量会在这个作用域的执行过程中维持不变；
+
+迭代器适配器是产生迭代器的函数，最常见的是那些产生迭代器insert_iterators的适配器，这样的迭代器会让关联的容器动态地增长。这样地迭代器能被安全地用作一个复制算法的目的地。在头文件iterator中定义。
+
+## ch7-Using associative containers
+
+do-while语句：
+
+```cpp
+do{
+    statement;
+}while(condition);
+```
+
+rand()函数：产生一个0到RAND_MAX之间的随机数，RAND_MAX在cstdlib中定义；
+
+pair<k,v>：一种简单类型，保存一对数值，访问通过first和second访问；
+
+map<k,v>：一种关联数组，键类型为k，值类型为v。
+
+## ch8-Writing generic functions
+
+泛型函数支持任何适当类型；
+
+函数对一个未知类型的参数的使用方式约束了这个参数的类型；
+
+实现了泛型函数的语言特征被称作**模板函数**；模板可以为一个行为特征相似的函数族编写一个单独的定义；
+
+模板例子：
+
+```cpp
+template<typename T>
+
+void func(T a){
+    //...
+}
+```
+
+`template<typename T>`是模板头，声明使用模板且模板类型是T；
+
+## ch9-Defining new types
+
+c++的类型可以分为两类：
+
+1. 内部类型：char、int、double...
+2. 自定义类型：string、vector、stream...
+
+保护标识符：public、private，公有成员（public）通常是可以访问的，私有成员（private）仅对类的成员才是可访问的。
+
+成员函数：既可以在类的内部定义，也可以在外部定义，外部定义时需要指明类作用域；
+
+构造函数：定义类型的初始化方式；
+
+```cpp
+class A{
+public:
+    A(){}; // 空构造函数
+    A(int xxx){}; // 另外一个构造函数
+    void func(){}; // public 成员函数
+    void func1(); // 类外定义的成员函数
+private:
+    std::string xxx; // 私有
+    void func2(){};
+};
+
+void A::func1(){
+    //
+};
+```
+
+## ch10-Managing memory and low-level data structures
+
+指针：存放对象地址的值，每一个单独的对象都有一个唯一的地址，该地址指向计算机内存中存放该对象的位置；
+
+```cpp
+int x; // x是一个int对象
+&x; // x的地址，&为求址运算符
+```
+
+```cpp
+int* p; // p 具有int*类型
+int *p; // *p 具有int类型
+```
+
+指向函数的指针与其他类型的指针声明是一样的。
+
+数组：
+
+```cpp
+T v[size]; // size必须为const的
+```
+
+main函数的参数：
+
+```cpp
+int main(int argc, char** argv){};
+
+// argc 代表参数的个数
+// argv 为参数，第一个为可执行文件名，第二个开始为命令行参数，访问用下标即可：argv[i]
+```
+
+文件读写：
+
+```cpp
+#include <fstream>
+
+cerr; // 标准错误流，输出不进入缓冲
+clog; // 标准错误流，用于保存作为日志，输出进入缓冲。
+ifstream infile("输入文件名");
+ofstream outfile("输出文件名");
+```
+
+new用于为对象分配内存，而delete为对象释放内存；
+
+```cpp
+new T; // 为一个T类型的对象分配内存，对其进行默认初始化，返回一个指向该新对象的指针
+new T(val); //为一个T类型的对象分配内存，初始化为val，返回一个指向该新对象的指针
+delete T; // 删除指针T指向对象，并释放内存。要求指针指向一个动态分配内存的对象、
+new T[n]; // 新建一个n个元素的数组
+delete[] T; // 删除并释放内存
+```
+
+## ch11-Defining abstract data types
+
+模板类：类是一个模板；
+
+```cpp
+template <class T> class name{
+public:
+    // 接口
+private:
+    // 实现
+}
+```
+
+this关键字：this只在成员函数中有效，代表指向函数操作对象的指针。
+
+析构函数：定义对象被删除时编译器所作的工作，析构函数的函数名是在类的名字前加一个波浪号(～)；析构函数不带任何参数，无返回值；
+
+一般需要的构造函数：
+
+* 一个或几个构造函数
+* 析构函数
+* 复制构造函数
+* 复制运算函数
+
+C++标准库中提供了管理内存的功能，在头文件memory中提供了allocator的类，可以分配一块预备用来存储对象但是未被初始化的内存块，并返回指向这块内存块的头元素的指针。
+
+## ch12-Making class objects act like values
+
+**类型转换**可以被定义成一个带单个参数的非explicit的构造函数，也可以被定义成operator type_name()形式的转换运算符。
+
+友元函数：类的友元函数是定义在类外部，但有权访问类的所有私有（private）成员和保护（protected）成员。
+
+```cpp
+typename<class T>
+class name{
+    friend ret_type func_name();
+    //...
+}
+```
+
+作为类成员的模板函数：一个类可以把模板函数作为成员函数，这个类本身可以是模板类，也可以不是模板类；
+
+## ch13-Using inheritance and dynamic binding
+
+继承属于oop的思想；
+
+```cpp
+class base{ // 基类
+public:
+    // 普通接口
+protected:
+    // 可以访问派生类的成员函数的接口
+private:
+    // 只能用以访问基类的成员函数的接口
+}
+// 基类的公有接口也是派生类接口的一部分
+class derived:public baseP{...}; // 派生类
+```
+
+在从基类中派生而来的类中可以重定义基类中的操作函数，也可以往派生类中加入自己的成员。类也可以被私有地继承：
+
+```cpp
+class priv_derived:private baseP{};
+```
+
+继承关系可以嵌套的；
+
+覆盖：如果一个派生类的成员函数与其基类中的一个同名成员函数有相同数目与相同类型的参数，而且两个函数都是（或都不是）const类型的函数，那么派生类的这个函数会覆盖基类的函数。
+
+虚拟析构函数：如果想用指向基类对象的指针来删除一个实际上可能是派生类的对象，那么基类中就需要声明一个虚拟的析构函数。
+
+```cpp
+class base{
+public:
+    virtual ~base() {}
+};
+```
+
+静态成员是作为类的成员而存在，而不是存在于每个对象实例中。所以，在一个静态成员函数中不能使用this关键字，这种函数只能访问静态成员数据。整个类的每个静态成员数据只有一个实例，一般来说，它必须在实现类的成员函数的源文件中被初始化。因为静态成员函数是在类定义的范围以外被初始化的，所以必须在初始化它的时候在成员数据前面加上类名限制：
+
+```cpp
+vlaue-type class_name::static-member-name = value;
+```
+
